@@ -28,8 +28,9 @@ def open_files():
     # chart too wide to get content overview
     # --> get sample file to check for irregularities
 
+    # pickle dataframe
+    my_dataframe.to_pickle("./my_buffer/my_dataframe.infer")
+
+    return my_dataframe
 
 
-    # drop columns that aren't relevant
-
-    # clean remaining cells (drop leading whitespaces, quotemarks, ...)
