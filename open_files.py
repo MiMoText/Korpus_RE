@@ -19,11 +19,11 @@ def open_files():
 
     # show all column heads
     my_columns = list(my_dataframe.columns)
-    print(my_columns)
+    # print(my_columns)
 
     # get content overview
     my_sample = my_dataframe.sample(n=15)
-    print(my_sample)
+    # print(my_sample)
     my_sample.to_csv("data_out/my_sample.csv")
     # chart too wide to get content overview
     # --> get sample file to check for irregularities

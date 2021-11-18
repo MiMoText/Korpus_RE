@@ -9,7 +9,6 @@ import clean
 
 # wo liegen die ganzen files von pojoni - check :-)
 
-# choose relevant rows
 
 # clean data (remove punctuation and special characters)
 my_data = pd.read_pickle("./my_buffer/my_dataframe.infer")
