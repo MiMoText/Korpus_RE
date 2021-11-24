@@ -14,3 +14,4 @@ def clean(my_dataframe):
 
 # Moment, ich muss das alles gar nicht machen. Ich habe ja die Passage-Spalte, in der das schon annotiert drin steht.
 # Ich muss: das alles in ein txt-file packen. Hintereinanderpacken 1 sentence/line.
+    return my_dataframe
