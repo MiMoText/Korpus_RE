@@ -14,17 +14,17 @@ my_data = pd.read_pickle("./my_buffer/my_dataframe.infer")
 # clean data (remove punctuation and special characters)
 # --- assuming this function will only return df
 my_data_clean = clean(my_data)
-print(my_data_clean.head())
+#print(my_data_clean.head())
 
 # create korpus
-create_korpus_re(my_data_clean)
+#create_korpus_re(my_data_clean)
 
 # classification
 #classification_from_pickle()
 
 
 # Do I need a simple split here?... I case you do:
-simple_split()
+#simple_split()
 
 # Tagging semeval, one sentence per line
 
