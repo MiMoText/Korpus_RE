@@ -7,14 +7,9 @@ import os
 from wordcloud import WordCloud
 from PIL import Image
 
-# gibt es Sinn als einfachste Variante erstmal eine
-# binäre Klassifikation zu implementieren, also relation - keine relation?
-# ich glaube nicht
-def classification_from_pickle():
+def classification():
     df = pd.read_pickle("my_buffer/korpus_entities.infer")
-    #print(df)
-    #print(df.columns)
-    # most frequent words in relation
+    print(df.info())
 
     # print(df.loc["relation out of scope"])
     df_test = df.set_index("Relation")
