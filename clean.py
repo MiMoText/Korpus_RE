@@ -10,23 +10,22 @@ def clean(my_dataframe):
     print(my_dataframe.info())# Unnamed:0 can be dropped (legacy index)
     print("\n")
 
-    # Spalte(n) raus ***
+    # Spalte(n) raus
     my_dataframe.drop(columns=["OCR-Absatz","Unnamed: 0","Anmerkung"], inplace=True)# inplace=True: changes are made in original dataframe
 
     # Zeichen Clean-Up
-    to_check_for = ["*", ";", ",", "\""] #List of characters to check for
-    for index, row in my_dataframe.iterrows():# Go over each row
+    for index, row in my_dataframe.iterrows():  # Go over each row
         for i in range(len(row)):               # Go over each cell
-            cell_string = str(row[i])
+            cell_string = str(row[i])           # strip? ***
+            if len(cell_string) > 2:
+                while (cell_string[0].isalnum() == False):
 
-            if cell_string[0] in to_check_for:
-               #print("test",cell_string)
+                    if (cell_string[0] == "(") and (cell_string[1].isalnum()):
+                        break
 
-                cell_string = cell_string[1:].strip() # or just lstrip ? check later
-                row[i] = cell_string
-
-            cell_string = cell_string.strip()
-                #print("check",row[i])
+                    cell_string = cell_string[1:].strip()
+                    row[i] = cell_string
+                    #print("check",row[i])
 
     # Zeilen-Clean-Up & un-/filtered split
     df_ungefiltert = my_dataframe.copy()
