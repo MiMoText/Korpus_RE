@@ -1,20 +1,23 @@
 import pandas as pd
-import open_files
-import clean
+from clean import clean
+from open_files import open_files
+from create_korpus_re import create_korpus_re
+#from classification import classification
+# --! causes exit code 139 (interrupted by signal 11: SIGSEGV) error on import
 
-
-# read files - check :-)
-# my_data = open_files.open_files()
-# anpassung: pandas read excel
-
-# wo liegen die ganzen files von pojoni - check :-)
-
-
-# clean data (remove punctuation and special characters)
+#read xlsx file(s) into df; return df /+write dataframe to .infer pickle file
+open_files()
 my_data = pd.read_pickle("./my_buffer/my_dataframe.infer")
-clean.clean(my_data)
-# Do I need a simple split here?
+
+# clean data (remove punctuation and special characters, drop some columns & rows)
+# ; return df /+ pickle df /+ write .csv(s) to data_out/
+my_data_clean = clean(my_data)
+#print(my_data_clean.head())
+
+# create korpus; selected columns /+ pickle df /+ write .csv(s) to data_out/
+create_korpus_re(my_data_clean)
+
+# classification
+#classification()
 
 # Tagging semeval, one sentence per line
-
-# write output (write to csv)
