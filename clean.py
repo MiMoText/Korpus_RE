@@ -22,6 +22,8 @@ def clean(my_dataframe):
 
                     if (cell_string[0] == "(") and (cell_string[1].isalnum()):
                         break
+                    if cell_string[0] == "<":
+                        break
 
                     cell_string = cell_string[1:].strip()
                     row[i] = cell_string
