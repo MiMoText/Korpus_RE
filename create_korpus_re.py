@@ -20,17 +20,16 @@ def create_korpus_re(my_dataframe):
     file_object = open('data_out/korpus_re.csv', 'r', encoding="utf-8")
     korpus_re_obj = csv.reader(file_object, delimiter=";")
 
-        # delete korpus re, dann muss ich das neue nicht umbenennen *** # oder einfach überschreiben
 
     # in korpus_re2.csv schreiben wir für jede Zeile aus korpus_re.csv
-    # Passage\n Code des Typs \n\n
+    # Passage\nCode des Typs\n\n
     file_object2 = open('data_out/korpus_re2.csv', 'w', encoding="utf-8")
     korpus_re2_obj = csv.writer(file_object2, delimiter=";")
 
-    # Wenn row ein String ist, wird dieser als Liste interpretiert.
-    # ----> Beim Schreiben mit csv.writer.writerow(row) muss row eine Liste sein die den String enthält.
-    passage_list = ["","\n"]
-    code_des_typs_list = ["","\n"]
+
+    #Beim Schreiben mit csv.writer.writerow(row) muss row eine Liste sein die den String enthält.
+    passage_list = [""]
+    code_des_typs_list = [""]
 
     for row in korpus_re_obj:
         passage_list[0] = row[0]
@@ -39,7 +38,7 @@ def create_korpus_re(my_dataframe):
         code_des_typs_list[0] = row[1]
         korpus_re2_obj.writerow(code_des_typs_list)
 
-        korpus_re2_obj.writerow("\n")
+        korpus_re2_obj.writerow("")
 
     file_object.close()
     file_object2.close()

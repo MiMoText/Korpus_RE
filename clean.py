@@ -43,6 +43,7 @@ def clean(my_dataframe):
 
     my_dataframe.reset_index(drop=True)
 
+    #Drop information
     #my_dataframe.info()
     print("-----Data Tables after Cleaning:")
     print("Shape ungefiltert", df_ungefiltert.shape)
