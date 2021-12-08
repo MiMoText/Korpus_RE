@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+import clean_stopwords
 
 # clean takes pandas dataframe as argument
 def clean(my_dataframe):
@@ -18,7 +19,7 @@ def clean(my_dataframe):
         for i in range(len(row)):               # Go over each cell
             cell_string = str(row[i])           # strip? ***
             if len(cell_string) > 2:
-                while (cell_string[0].isalnum() == False):
+                while len(cell_string) > 0 and (cell_string[0].isalnum() == False):
 
                     if (cell_string[0] == "(") and (cell_string[1].isalnum()):
                         break
@@ -42,6 +43,20 @@ def clean(my_dataframe):
             my_dataframe.drop([index], inplace=True)
 
     my_dataframe.reset_index(drop=True)
+
+    # Stopwords clean-up ---> gefiltert.csv
+    counter = 0 # für Laufzeit Abschätzung
+
+   # for index in my_dataframe.index:
+    #    counter += 1
+     #   check_rel = str(my_dataframe.loc[index, 'Relation'])
+      #  check_pass = str(my_dataframe.loc[index, 'Passage'])
+
+       # my_dataframe.loc[index, 'Relation'] = clean_stopwords.clean_sw(check_rel)
+        #my_dataframe.loc[index, 'Passage'] = clean_stopwords.clean_sw(check_pass)
+        #if counter % 100 == 0:
+         #   print("Zeilen auf sw gecheckt:",counter)
+
 
     #Drop information
     #my_dataframe.info()
