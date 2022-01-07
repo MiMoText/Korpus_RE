@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+import clean_stopwords
 
 # clean takes pandas dataframe as argument
 def clean(my_dataframe):
@@ -11,14 +12,14 @@ def clean(my_dataframe):
     print("\n")
 
     # Spalte(n) raus
-    my_dataframe.drop(columns=["OCR-Absatz","Unnamed: 0","Anmerkung"], inplace=True)# inplace=True: changes are made in original dataframe
+    my_dataframe.drop(columns=["OCR-Absatz","Unnamed: 0","Anmerkung","Annotator*in"], inplace=True)# inplace=True: changes are made in original dataframe
 
-    # Zeichen Clean-Up
+    # Lead-Zeichen Clean-Up
     for index, row in my_dataframe.iterrows():  # Go over each row
         for i in range(len(row)):               # Go over each cell
-            cell_string = str(row[i])           # strip? ***
+            cell_string = str(row[i])          # strip? ***
             if len(cell_string) > 2:
-                while (cell_string[0].isalnum() == False):
+                while len(cell_string) > 0 and (cell_string[0].isalnum() == False):
 
                     if (cell_string[0] == "(") and (cell_string[1].isalnum()):
                         break
@@ -31,8 +32,6 @@ def clean(my_dataframe):
 
     # Zeilen-Clean-Up & un-/filtered split
     df_ungefiltert = my_dataframe.copy()
-
-
     for index in my_dataframe.index:
         check_rel = str(my_dataframe.loc[index, 'Relation'])
         check_post = str(my_dataframe.loc[index, 'POST'])          #NaN values do not appear to be a problem
@@ -42,6 +41,26 @@ def clean(my_dataframe):
             my_dataframe.drop([index], inplace=True)
 
     my_dataframe.reset_index(drop=True)
+
+    # Stopwords clean-up, small fixes ---> gefiltert.csv
+    # columns : Passage, Relation, E1&E2
+    counter = 0 # für Laufzeit Abschätzung
+
+    for index in my_dataframe.index:
+        counter += 1
+        check_rel = str(my_dataframe.loc[index, 'Relation'])
+        check_pass = str(my_dataframe.loc[index, 'Passage'])
+        check_e1 = str(my_dataframe.loc[index, 'E1'])
+        check_e2 = str(my_dataframe.loc[index, 'E2'])
+
+        my_dataframe.loc[index, 'Relation'] = clean_stopwords.clean_sw(check_rel)
+        my_dataframe.loc[index, 'Passage'] = clean_stopwords.clean_sw(check_pass)
+        my_dataframe.loc[index, 'E1'] = clean_stopwords.clean_sw(check_e1)
+        my_dataframe.loc[index, 'E2'] = clean_stopwords.clean_sw(check_e2)
+
+        if counter % 100 == 0:
+            print("Zeilen auf sw gecheckt:",counter)
+
 
     #Drop information
     #my_dataframe.info()
