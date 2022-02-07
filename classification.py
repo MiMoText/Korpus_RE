@@ -19,7 +19,7 @@ def classification():
     df_topic_interest = df[df["Code des Typs"] == "topicInterest"]
 
     list_topic_interest = df_topic_interest["Relation"].tolist()
-    print(list_topic_interest)
+   # print(list_topic_interest)
 
     print(Counter(list_topic_interest))
     # man sieht, dass sich hier noch gar nichts doppelt
