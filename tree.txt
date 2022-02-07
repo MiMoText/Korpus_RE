@@ -1,0 +1,1 @@
+Tree('steht', [Tree('Libertinage', ['Die', 'erotische', Tree('Aufklärung', ['der'])]), 'eindeutig', Tree('in', [Tree('Tradition', ['der', 'ungebrochenen', Tree('Denkens', [Tree('laizistischen', [',', 'materialistischen'])])])]), Tree('das', [Tree('vom', [Tree('Gassendismus', [Tree('XVII', ['des'])])])]), '.'])
