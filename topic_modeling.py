@@ -108,17 +108,18 @@ for doc in tqdm(txt_file_list):
     # We'll assume that the number of topics is 3 for now.
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                            id2word=words,
-                                           num_topics=3,
+                                           num_topics=25,
                                            random_state=2,
                                            update_every=1,
                                            passes=10,
                                            alpha='auto',
                                            per_word_topics=True)
 
-    pprint(lda_model.print_topics(num_words=75))
+    pprint(lda_model.print_topics(num_words=3))
 
     # Write to file using pprint
-    with open("data_out/lda/"+doc[1]+"_topics.txt", "wt") as text_file:
+    with open("data_out/lda/"+doc[1].replace(".txt","") +"_topics.txt", "wt") as text_file:
         pprint(lda_model.print_topics(num_words=50), stream=text_file)
 
     lda_model.clear() # clear memory
+
