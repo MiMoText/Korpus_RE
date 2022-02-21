@@ -50,8 +50,9 @@ def korpus_wordcloud(path):
         plt.figure(figsize=(10, 10))
         plt.imshow(wordcloud, interpolation='bilinear')
         plt.axis("off")
+        #plt.savefig("data_out/lda/LDA_wordcloud_" + path.split("/")[-1].replace(".txt", "") + ".png")
         plt.show()
-        #plt.savefig("lda/LDA_wordcloud_" + path.split("/")[-1].replace(".txt","") + ".png")
+
 
     # ---------------TXT FQ-----------------------------------------
     else: # if it is a txt file
@@ -84,8 +85,9 @@ def korpus_wordcloud(path):
         plt.figure(figsize=(10, 10))
         plt.imshow(wordcloud, interpolation='bilinear')
         plt.axis("off")
+        # plt.savefig("data_out/lda/FQ_wordcloud_" + path.split("/")[-1].replace(".txt","") + ".png")
         plt.show()
-        #plt.savefig("lda/FQ_wordcloud_" + path.split("/")[-1].replace(".txt","") + ".png")
+
 
 
 def korpus_pie(table_path):
@@ -117,14 +119,14 @@ def korpus_pie(table_path):
     fig1, ax1 = plt.subplots()
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%' ,shadow=True, startangle=90)
     ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
+    #plt.savefig("data_out/lda/piechart_" + table_path.split("/")[-1].replace(".xlsx", "") + ".png")
+                                                                                # or .csv
     plt.show()
-    # plt.savefig("data_out/lda/piechart_" + path.split("/")[-1].replace(".txt","") + ".png")
 
 #-----------------Visualisation------------------------------------------------------------------
 
 #korpus_pie("data_out/lda/table.csv")
-#korpus_pie("data_in/Baasner Libertinage und Empfindsamkeit_156.xlsx") # for testing
+korpus_pie("data_in/Baasner Libertinage und Empfindsamkeit_156.xlsx") # for testing
 
-korpus_wordcloud("data_in/lda/Brockmeier_Wetzel.txt")
+#korpus_wordcloud("data_in/lda/Brockmeier_Wetzel.txt")
 korpus_wordcloud("data_out/lda/Brockmeier_Wetzel_topics.txt")
