@@ -12,17 +12,16 @@ from spacy.lang.fr.stop_words import STOP_WORDS
 from spacy.language import Language
 
 #-----------------------Prep Raw Text-----------------------------------------------------
-nlp = spacy.load('de_core_news_lg')
+nlp = spacy.load('de_core_news_md')
 txt_paths = glob.glob("data_in/lda/*.txt")  # Save the (relative) paths of all .txt files in a list
 print(txt_paths)
 print("{} text file(s) have been found. \n".format(len(txt_paths)))
 
-#iterate over all files in data_in/lda and read them into a list
+# iterate over all files in data_in/lda and read them into a list
 txt_file_list = []
 for txt_path in txt_paths:
-
     filename = txt_path.split("/")[-1]
-    with open(txt_path, 'r') as f:
+    with open(txt_path, 'r', encoding="utf-8") as f:
         prepared_text = f.read()
         prepared_text = prepared_text.replace('\n', ' ').replace('\t', ' ').replace("  "," ").replace('ſ', 's') # old german "s"-sign
         txt_file_list.append((prepared_text,filename)) # add the filename as a second element to the tuple
@@ -108,7 +107,7 @@ for doc in tqdm(txt_file_list):
     # We'll assume that the number of topics is 3 for now.
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                            id2word=words,
-                                           num_topics=3,
+                                           num_topics=100,
                                            random_state=2,
                                            update_every=1,
                                            passes=10,
