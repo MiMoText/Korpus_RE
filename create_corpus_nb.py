@@ -1,7 +1,10 @@
 import glob
 import pandas as pd
 import re
+from nltk import tokenize
 
+# by KD
+# Alle Entities in handannotierten Texten finden
 
 filelist = glob.glob("./data_in/*.csv")
 print("The following files were found: \n")
@@ -16,16 +19,23 @@ for file in filelist:
 
     full_text_passage = full_text.filter(["Passage"])
 
-    # print(full_text_passage)
+    full_text_passage.to_csv("test.csv")
 
+f = open("test.csv", encoding="utf-8")
+full_text_string = f.read()
+print(full_text_string)
+print(type(full_text_string))
 
-        #entities = re.search("<e.*</e", passage_string)
-        #print(entities)
+# full_text_tokenized = tokenize.word_tokenize(full_text_string)
 
-        # todo change pandas dtype to string
-        # dtype=string
+entities = re.search("<e.*</e", full_text_string)
+print(entities)
+
+# todo greedy search
+# todo only entities keine relations erstmal, oder?
+
         
-        # filename = glob.glob("./data_out/NB_Corpus/*.txt")
+# filename = glob.glob("./data_out/NB_Corpus/*.txt")
 
 
 
