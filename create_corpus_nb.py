@@ -1,6 +1,7 @@
 import glob
 import pandas as pd
 import re
+import pickle
 from nltk import tokenize
 
 # by KD
@@ -14,7 +15,6 @@ for file in filelist:
     f = open(file, encoding="ansi")
     print(file + "has been opened ")
     full_text = pd.read_csv(f, delimiter=";")
-    # print(full_text)
     f.close()
 
     full_text_passage = full_text.filter(["Passage"])
@@ -24,18 +24,74 @@ f = open("test.csv", encoding="utf-8")
 full_text_string = f.read()
 f.close()
 
+# ############## Entities 1########################
 
-print(full_text_string)
-print(type(full_text_string))
+entities_1 = re.findall("<e1>.*</e1>", full_text_string)
+# print(entities_1)
+
+entity1_list = []
+for entity1 in entities_1:
+    entity1_hv = entity1.replace("<e1>", "")
+    entity1_hv2 = entity1_hv.replace("</e1>", "")
+    entity1_list.append(entity1_hv2)
+# print(entity1_list)
+
+file_out = open("e1_pos_ex.csv", "w", encoding="utf-8")
+for item in entity1_list:
+    file_out.write(item + "\n")
+
+# ############### Entities 2###########################
+
+entities_2 = re.findall("<e2>.*</e2>", full_text_string)
+# print(entities_2)
+
+entity_list = []
+for entity in entities_2:
+    entity_hv = entity.replace("<e2>", "")
+    entity_hv2 = entity_hv.replace("</e2>", "")
+    entity_list.append(entity_hv2)
+# print(entity_list)
+
+file_out = open("e2_pos_ex.csv", "w", encoding="utf-8")
+for item in entity_list:
+    file_out.write(item + "\n")
+
+# ##################### Relations ########################
+
+relations = re.findall("<rel>.*</rel>", full_text_string)
+# print(relations)
+
+relation_list = []
+for relation in relations:
+    relation_hv = relation.replace("<rel>", "")
+    relation_hv2 = entity_hv.replace("</rel>", "")
+    relation_list.append(relation_hv2)
+# print(relation_list)
+
+file_out = open("rel_pos_ex.csv", "w", encoding="utf-8")
+for item in relation_list:
+    file_out.write(item + "\n")
+
+# ############### Negativbeispiele ########################
+neg_ex = re.findall("</.*?>.*?<", full_text_string)
+print(neg_ex)
+
+"""
+neg_ex_list = []
+for ex in neg_ex:
+    neg_ex_hv = ex.replace("/>", "")
+    neg_ex_hv2 = entity_hv.replace("<", "")
+    neg_ex_list.append(neg_ex_hv2)
+# print(neg_ex_list)
+
+file_out = open("neg_ex.csv", "w", encoding="utf-8")
+for neg_item in neg_ex_list:
+    file_out.write(neg_item + "\n")
+
+"""
 
 
-entities = re.findall("<e2>.*</e2>", full_text_string)
-print(entities)
-
-my_string = "test <e2> test"
-my_string_stripped = my_string.replace("<e2>", "")
-print(my_string_stripped)
-
+# pickle.dump(entity_list, "e2.dmp", "w")
 
 # filename = glob.glob("./data_out/NB_Corpus/*.txt")
 
