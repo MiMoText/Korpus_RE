@@ -18,23 +18,25 @@ for file in filelist:
     f.close()
 
     full_text_passage = full_text.filter(["Passage"])
-
     full_text_passage.to_csv("test.csv")
 
 f = open("test.csv", encoding="utf-8")
 full_text_string = f.read()
+f.close()
+
+
 print(full_text_string)
 print(type(full_text_string))
 
-# full_text_tokenized = tokenize.word_tokenize(full_text_string)
 
-entities = re.search("<e.*</e", full_text_string)
+entities = re.findall("<e2>.*</e2>", full_text_string)
 print(entities)
 
-# todo greedy search
-# todo only entities keine relations erstmal, oder?
+my_string = "test <e2> test"
+my_string_stripped = my_string.replace("<e2>", "")
+print(my_string_stripped)
 
-        
+
 # filename = glob.glob("./data_out/NB_Corpus/*.txt")
 
 
