@@ -6,6 +6,7 @@ from nltk import tokenize
 
 # by KD
 # Alle Entities in handannotierten Texten finden
+# todo redundanten Code zu Funktionen zusammenfassen
 
 filelist = glob.glob("./data_in/*.csv")
 print("The following files were found: \n")
@@ -73,7 +74,12 @@ for item in relation_list:
     file_out.write(item + "\n")
 
 # ############### Negativbeispiele ########################
-neg_ex = re.findall("</.*?>.*?<", full_text_string)
+# todo matcht jetzt das Richtige, ich lass das jetzt erstmal so
+# todo aber es gibt bestimmt eine flag, die ich für non-greedy setzen kann
+# todo dann können die ganzen zusätzlichen ? raus
+
+
+neg_ex = re.findall("</.??e.??>.+?<.??e.??>", full_text_string)
 print(neg_ex)
 
 """
