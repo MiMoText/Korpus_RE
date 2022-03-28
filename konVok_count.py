@@ -13,7 +13,7 @@ tokenizer_de = Tokenizer(German().vocab)
 tokenizer_fr = Tokenizer(French().vocab)
 tokenizer_en = Tokenizer(English().vocab)
 
-df_overall = pd.read_excel('data_out/KonVok_count/KonVok_overall_count.xlsx')
+df_overall = pd.read_excel('data_out/KonVok_Korpus/KonVok_overall_count.xlsx')
 
 df_de = df_overall[['MiMoText Label (de)','Count (de)']].copy()
 df_fr = df_overall[['MiMoText Label (fr)','Count (fr)']].copy()
@@ -38,7 +38,7 @@ def count_label (label,tokenizer):
 
 def generate_count_table():
 
-    df = pd.read_excel('data_in/KonVok_count/KonVok Stringabgleich Seklit.xlsx', sheet_name='Themen-KonVok')
+    df = pd.read_excel('data_in/KonVok_Korpus/KonVok Stringabgleich Seklit.xlsx', sheet_name='Themen-KonVok')
     df.info()
 
     df = df.drop(columns=['Wikidata Ids (zu DEL-Begriffen)','Wikidata URLs','Quelle','Match quality',
@@ -100,7 +100,7 @@ def generate_count_table():
 
     print(df.head(50).to_string())
 
-    df.to_excel('data_out/KonVok_count/KonVok_overall_count.xlsx', index=False) #Output All
+    df.to_excel('data_out/KonVok_Korpus/KonVok_overall_count.xlsx', index=False) #Output All
 
 
 
@@ -164,6 +164,7 @@ def generate_top25_tables(df, lang):
                     to_append = [count, label, i, before+ ' ' + label + ' ' + after, path_split]
                     df_label_rows.loc[len(df_label_rows)] = to_append
 
+        df_label_rows.to_excel('data_out/KonVok_Korpus/'+suffix+'/'+label+'.xlsx', index=False)
         #print(df_label_rows.sample(10).to_string())
         # Append the rows in df_label_rows to df_all_labels
         df_all_labels = df_all_labels.append(df_label_rows, ignore_index=True)
@@ -171,13 +172,13 @@ def generate_top25_tables(df, lang):
         df_all_labels.reset_index(drop=True, inplace=True)
 
     #export to excel
-    df_all_labels.to_excel('data_out/KonVok_count/KonVok_top25_occur' + suffix + '.xlsx', index=False)
+    df_all_labels.to_excel('data_out/KonVok_Korpus/KonVok_top25_occur' + suffix + '.xlsx', index=False)
 
 
 #-------------Main-------------
 
 #generate_count_table()
 
-#generate_top25_tables(df_de, '(de)')
-#generate_top25_tables(df_fr, '(fr)')
-#generate_top25_tables(df_en, '(en)')
+generate_top25_tables(df_de, '(de)')
+generate_top25_tables(df_fr, '(fr)')
+generate_top25_tables(df_en, '(en)')
