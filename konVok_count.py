@@ -174,11 +174,65 @@ def generate_top25_tables(df, lang):
     #export to excel
     df_all_labels.to_excel('data_out/KonVok_Korpus/KonVok_top25_occur' + suffix + '.xlsx', index=False)
 
+def generate_file_tables():
+
+    txt_paths = glob.glob("data_in/KonVok_count/text_data/*.txt")
+
+    #read file with label data from data in seklit
+    df = pd.read_excel('data_in/KonVok_count/KonVok Stringabgleich Seklit.xlsx', sheet_name='Themen-KonVok')
+
+    #read the string from the first three columns into a list
+
+    #label_list.append(df['MiMoText Label (fr)'])
+    label_list = (df['MiMoText Label (de)'].to_list())
+    print(label_list)
+    #label_list.append(df['MiMoText Label (en)'])
+
+    for path in txt_paths:
+        path_split = path.split('/')[-1]
+        dfx = pd.DataFrame(columns=['Anzahl', 'Wort aus Vokabular', 'Tokennummer im Text', 'Passage', 'Name Datei'])
+
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read().replace('\n', ' ')
+
+        doc = tokenizer_de(text)  # Tokenize the text
+
+        print('Checking File: ',path_split)
+        for label in tqdm(label_list):
+
+            for i in range(len(doc)):
+
+                if label == doc[i].text:
+
+                    #genereate string with 3 tokens after and 3 tokens before the label
+                    if i > 3:
+                        before = ' '.join([token.text for token in doc[i-3:i]])
+                    else:
+                        before = ' '.join([token.text for token in doc[0:i]])
+                    if i < len(doc)-3:
+                        after = ' '.join([token.text for token in doc[i+1:i+4]])
+                    else:
+                        after = ' '.join([token.text for token in doc[i+1:]])
+
+                    #Count the number of tokens that = label in that file
+
+                    count = [1 for token in doc if token.text == label]
+                    count = sum(count)
+
+                    to_append = [count, label, i, before + ' ' + label + ' ' + after, path_split]
+                    #print(to_append)
+
+                    dfx.loc[len(dfx)] = to_append
+
+        dfx.to_excel('data_out/KonVok_Korpus/datei_aufteilung/'+path_split.split('.')[0]+'.xlsx', index=False)
+        #empty the dataframe
 
 #-------------Main-------------
 
 #generate_count_table()
 
-generate_top25_tables(df_de, '(de)')
-generate_top25_tables(df_fr, '(fr)')
-generate_top25_tables(df_en, '(en)')
+#generate_top25_tables(df_de, '(de)')
+#generate_top25_tables(df_fr, '(fr)')
+#generate_top25_tables(df_en, '(en)')
+
+generate_file_tables()
