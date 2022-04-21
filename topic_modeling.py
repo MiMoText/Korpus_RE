@@ -114,10 +114,11 @@ for doc in tqdm(txt_file_list):
                                            alpha='auto',
                                            per_word_topics=True)
 
-    pprint(lda_model.print_topics(num_words=75))
+    pprint(lda_model.print_topics(num_words=3))
 
     # Write to file using pprint
-    with open("data_out/lda/"+doc[1]+"_topics.txt", "wt") as text_file:
+    with open("data_out/lda/"+doc[1].replace(".txt","") +"_topics.txt", "wt") as text_file:
         pprint(lda_model.print_topics(num_words=50), stream=text_file)
 
     lda_model.clear() # clear memory
+
