@@ -4,12 +4,12 @@ import pandas as pd
 
 
 def open_files():
-    path = "data_in"
+    path = "data_in/korpus_xlsx/"
     files = os.listdir(path)
     print("-----Opening Files: ",len(files),"found")
 
     # merging the files
-    joined_files = os.path.join("data_in", "*.xlsx")
+    joined_files = os.path.join("data_in/korpus_xlsx/", "*.xlsx")
 
     # A list of all joined files is returned
     joined_list = glob.glob(joined_files)

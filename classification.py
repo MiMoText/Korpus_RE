@@ -4,7 +4,7 @@ import pandas as pd
 import create_korpus_re
 from collections import Counter
 import os
-from wordcloud import WordCloud
+#from wordcloud import WordCloud
 from PIL import Image
 
 def classification():
@@ -25,12 +25,13 @@ def classification():
     # man sieht, dass sich hier noch gar nichts doppelt
     # --> bag of word für weitere Einblicke
     # todo relation out of scope rauskicken
+    # todo replace wordcloud module with matplotlib one
     string_topic_interest = "".join(list_topic_interest)
     # print(string_topic_interest)
     string_topic_interest = string_topic_interest.lower()
     # wordcloud = WordCloud().generate(list_topic_interest)
 
-    wordcloud = WordCloud(background_color="white").generate(string_topic_interest)
-    plt.imshow(wordcloud)
-    plt.axis("off")
-    plt.show()
+    #wordcloud = WordCloud(background_color="white").generate(string_topic_interest)
+    #plt.imshow(wordcloud)
+    #plt.axis("off")
+    #plt.show()

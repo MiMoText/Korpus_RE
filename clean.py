@@ -1,79 +1,107 @@
 import pandas as pd
 import csv
 import clean_stopwords
+from tqdm import tqdm
+tqdm.pandas()
 
-# clean takes pandas dataframe as argument
-def clean(my_dataframe):
-    print("-----Cleaning Files:\n")
-    my_dataframe.reset_index(drop=True, inplace=True)
+#------
+# MLP
+#------
 
+def lead_chars(text):
+    '''
+    Is applied to every column in the dataframe.
+    Removes unwanted, leading characters from a string
+     - eg. comma, semicolon, whitespace etc.
+     - "<" is an exception, because it marks the begging of a tag
+     - "(" is an exception too, if followed by alnum character
+    '''
+
+    #print("input:", text)
+    text = str(text)
+
+    #if len(text) > 2:
+    while len(text) > 1 and (text[0].isalnum() == False):
+
+        if (text[0] == "(") and (text[1].isalnum()):
+            break
+        if text[0] == "<":
+            break
+
+        text = text[1:].strip()
+
+    #print("output:", text)
+    return text
+
+def clean(dataframe):
+    '''
+    Explanation:
+    '''
+
+    print("\n      Cleaning Files:\n")
     print("-----Data Table to be Cleaned:")
-    print(my_dataframe.info())# Unnamed:0 can be dropped (legacy index)
+
+    dataframe.reset_index(drop=True, inplace=True)
+    print(dataframe.info())
     print("\n")
 
-    # Spalte(n) raus
-    my_dataframe.drop(columns=["OCR-Absatz","Unnamed: 0","Anmerkung","Annotator*in"], inplace=True)# inplace=True: changes are made in original dataframe
+    # Drop unnecessary columns
+    # Unnamed:0 can be dropped too (legacy index)
+    # inplace=True: changes are made in original dataframe
+    dataframe.drop(columns=["OCR-Absatz", "Unnamed: 0", "Anmerkung", "Annotator*in"], inplace=True)
 
-    # Lead-Zeichen Clean-Up
-    for index, row in my_dataframe.iterrows():  # Go over each row
-        for i in range(len(row)):               # Go over each cell
-            cell_string = str(row[i])          # strip? ***
-            if len(cell_string) > 2:
-                while len(cell_string) > 0 and (cell_string[0].isalnum() == False):
+#----------Lead-Char Clean-Up for all columns with lambda function
 
-                    if (cell_string[0] == "(") and (cell_string[1].isalnum()):
-                        break
-                    if cell_string[0] == "<":
-                        break
+    print("Leading-Char-Cleanup :")
 
-                    cell_string = cell_string[1:].strip()
-                    row[i] = cell_string
-                    #print("check",row[i])
+    for i in range(len(dataframe.columns)):
+        print("---> Column:", dataframe.columns[i])
+        dataframe[dataframe.columns[i]] = dataframe[dataframe.columns[i]].apply(lambda x: lead_chars(x))
 
-    # Zeilen-Clean-Up & un-/filtered split
-    df_ungefiltert = my_dataframe.copy()
-    for index in my_dataframe.index:
-        check_rel = str(my_dataframe.loc[index, 'Relation'])
-        check_post = str(my_dataframe.loc[index, 'POST'])          #NaN values do not appear to be a problem
-        #Check for marked and unmarked errors
+
+    print("-----> Done\n")
+
+#-----------------------------------------------------
+    # Before filtering, create a copy of the dataframe
+    df_ungefiltert = dataframe.copy()
+
+    print("Filter using Relation Values :")
+    for index in tqdm(dataframe.index):
+        check_rel = str(dataframe.loc[index, 'Relation'])
+
+        # TODO comment
+        check_post = str(dataframe.loc[index, 'POST'])
+
+        #Check for marked (eg."ND") and unmarked errors
         if (check_rel == "relation out of scope") or (len(check_rel) < 2) or (check_rel == "nan") \
-                or (check_post == "ND") or (check_post == "RTS"):# RSU too? ***
-            my_dataframe.drop([index], inplace=True)
+                or (check_post == "ND") or (check_post == "RTS"):
+            dataframe.drop([index], inplace=True)
 
-    my_dataframe.reset_index(drop=True)
+    dataframe.reset_index(drop=True)
+    print("-----> Done\n")
 
-    # Stopwords clean-up, small fixes ---> gefiltert.csv
-    # columns : Passage, Relation, E1&E2
-    counter = 0 # für Laufzeit Abschätzung
+    #-----------------
 
-    for index in my_dataframe.index:
-        counter += 1
-        check_rel = str(my_dataframe.loc[index, 'Relation'])
-        check_pass = str(my_dataframe.loc[index, 'Passage'])
-        check_e1 = str(my_dataframe.loc[index, 'E1'])
-        check_e2 = str(my_dataframe.loc[index, 'E2'])
+    print("Stopwords Clean-Up :")
+    print("Columns to be cleaned: Relation, Passage, E1, E2")
+    dataframe['Relation'] = dataframe['Relation'].progress_apply(lambda x: clean_stopwords.clean_sw(str(x)))
+    dataframe['Passage'] = dataframe['Passage'].progress_apply(lambda x: clean_stopwords.clean_sw(str(x)))
+    dataframe['E1'] = dataframe['E1'].progress_apply(lambda x: clean_stopwords.clean_sw(str(x)))
+    dataframe['E2'] = dataframe['E2'].progress_apply(lambda x: clean_stopwords.clean_sw(str(x)))
 
-        my_dataframe.loc[index, 'Relation'] = clean_stopwords.clean_sw(check_rel)
-        my_dataframe.loc[index, 'Passage'] = clean_stopwords.clean_sw(check_pass)
-        my_dataframe.loc[index, 'E1'] = clean_stopwords.clean_sw(check_e1)
-        my_dataframe.loc[index, 'E2'] = clean_stopwords.clean_sw(check_e2)
+    print("-----> Done\n")
 
-        if counter % 100 == 0:
-            print("Zeilen auf sw gecheckt:",counter)
+    ##----------Post-Filter information
+    rows_droped = df_ungefiltert.shape[0] - dataframe.shape[0]
 
-
-    #Drop information
-    #my_dataframe.info()
     print("-----Data Tables after Cleaning:")
     print("Shape ungefiltert", df_ungefiltert.shape)
-    print("Shape gefiltert", my_dataframe.shape)
-    rows_droped = df_ungefiltert.shape[0] - my_dataframe.shape[0]
+    print("Shape gefiltert", dataframe.shape)
     print("Rows dropped:", rows_droped, "(", round(rows_droped*100/df_ungefiltert.shape[0],2), "% )\n")
+    # my_dataframe.info()
 
     df_ungefiltert.to_csv("data_out/ungefiltert_cleaned.csv", index=False, encoding="utf-8-sig", sep=";")
-    my_dataframe.to_csv("data_out/gefiltert_cleaned.csv", index=False, encoding="utf-8-sig", sep=";")
+    dataframe.to_csv("data_out/gefiltert_cleaned.csv", index=False, encoding="utf-8-sig", sep=";")
 
 
-    return my_dataframe
-
-
+    return dataframe
