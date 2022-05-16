@@ -21,7 +21,7 @@ for file in filelist:
     full_text_passage = full_text.filter(["Passage"])
     full_text_passage.to_csv("test.csv")
 
-f = open("test.csv", encoding="utf-8")
+f = open("data_in/test.csv", encoding="utf-8")
 full_text_string = f.read()
 f.close()
 
