@@ -37,7 +37,7 @@ for entity1 in entities_1:
     entity1_list.append(entity1_hv2)
 
 
-file_out = open("e1_pos_ex.csv", "w", encoding="utf-8")
+file_out = open("my_buffer/e1_pos_ex.csv", "w", encoding="utf-8")
 for item in entity1_list:
     file_out.write(item + "\n")
 
@@ -53,7 +53,7 @@ for entity in entities_2:
     entity_list.append(entity_hv2)
 
 
-file_out = open("e2_pos_ex.csv", "w", encoding="utf-8")
+file_out = open("my_buffer/e2_pos_ex.csv", "w", encoding="utf-8")
 for item in entity_list:
     file_out.write(item + "\n")
 
@@ -70,7 +70,7 @@ for relation in relations:
 # print(relation_list)
 
 
-file_out = open("rel_pos_ex.csv", "w", encoding="utf-8")
+file_out = open("my_buffer/rel_pos_ex.csv", "w", encoding="utf-8")
 for item in relation_list:
     file_out.write(item + "\n")
 
@@ -88,6 +88,6 @@ for neg_ex_item in neg_exs:
     neg_ex_list.append(neg_ex_hv1)
 # print(neg_ex_list)
 
-file_out = open("neg_ex.csv", "w", encoding="utf-8")
+file_out = open("my_buffer/neg_ex.csv", "w", encoding="utf-8")
 for item in neg_ex_list:
     file_out.write(item + "\n")
