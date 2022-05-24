@@ -6,11 +6,18 @@ from sklearn.naive_bayes import MultinomialNB
 # ###### Overview #################
 # https://towardsdatascience.com/how-to-build-your-first-spam-classifier-in-10-steps-fdbf5b1b3870
 # create dataframe
-# 1 row lable, 1 row string
-# lables: e1, e2, rel, neg
-# every entry gets its own line
+# row1: label
+# row2: text
 ###################################
 
+my_dataframe = pd.read_csv("./Corpus/corpus.csv", delimiter=",")
+print(my_dataframe)
+
+
+
+
+# this block of code was set to comment bc it arranged the labels in wrong order
+"""
 # create dataframe pos e1
 # becomes useless ift countvectorizer reads csv
 df_e1 = pd.read_csv("./Corpus/e1_pos_ex.csv", delimiter="\n")
@@ -26,7 +33,7 @@ final_frame.columns =["e1", "e2", "rel", "neg"]
 print(final_frame)
 
 print(final_frame["e1"].value_counts())
-
+"""
 
 
 
