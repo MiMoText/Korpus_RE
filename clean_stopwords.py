@@ -60,11 +60,6 @@ def clean_sw(text):
     return stri
 
 
-####-------for Testing
-#with open('Strings4Test_clean_sw.txt', 'r') as f:
- #   for line in f:
-  #      print(line[:-1]) # -1 ist "newline"
-   #     print(clean_sw(line)+"\n")
 
 
 

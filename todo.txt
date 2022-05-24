@@ -1,0 +1,3 @@
+clean_stopwords.py variablenbenennung etc korrigieren
+kommentare sind noch auf deutsch
+topic modeling.py aufräumen
