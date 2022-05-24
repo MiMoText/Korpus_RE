@@ -50,7 +50,7 @@ vectorizer = TfidfVectorizer(
 
 # features_train_transformed = vectorizer.fit_transform(my_dataframe["text"].values.astype("U"))
 features_train_transformed = vectorizer.fit_transform(x_train.values.astype("U"))
-features_test_transformed = vectorizer.fit_transform(x_test.values.astype("U"))
+features_test_transformed = vectorizer.transform(x_test.values.astype("U"))
 
 classifier = MultinomialNB()
 result = classifier.fit(features_train_transformed, y_train)
