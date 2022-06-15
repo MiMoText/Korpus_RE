@@ -1,16 +1,30 @@
+# Project MiMoText
 Readme created on May 16th by Katharina Dietz
-Project MiMoText
 
 This package contains code to create a corpus from secondary literature.
 The texts are cleaned, then vectorized.
 Classification Task: Determine wether a relation between entities consists.
 
+--------------------------
+### Lucky's TODOS:
+- [x] Group project files into "pipes" for overview (roughly)
+- [x] First ReadMe Update
+- [ ] Work on task from first week of June, use functions which are already implemented (grouping task should help with that)
+- [ ] create new main.py file
+- [ ] Test if scripts do what they supposed to
+- [ ] Take a good look at the "pipes", maybe even update ReadMe accordingly
+- [ ] If neccesary, research design patterns/packaging
+- [ ] If neccesary, ask questions @ leadership
+- [ ] Update TODOs & ReadMe
+--------------------------
 
 Project structure:
-root
-data_in
-data_out
-my buffer
+
+folders in root :
+
+- data_in/
+- data_out/
+- my buffer/
 
 files in root:
 - classification.py
